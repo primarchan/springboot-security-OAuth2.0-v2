@@ -19,10 +19,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final PrincipalOauth2UserService principalOauth2UserService;
 
     // @Bean 사용 시 해당 메서드의 리턴되는 Object 를 IoC 로 등록
+    /*
     @Bean
     BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
     }
+     */
 
     /**
      * OAuth2.0 을 통한 로그인 프로세스
