@@ -3,6 +3,7 @@ package com.example.security01.config.oauth;
 import com.example.security01.auth.PrincipalDetails;
 import com.example.security01.config.oauth.provider.FacebookUserInfo;
 import com.example.security01.config.oauth.provider.GoogleUserInfo;
+import com.example.security01.config.oauth.provider.NaverUserInfo;
 import com.example.security01.config.oauth.provider.OAuth2UserInfo;
 import com.example.security01.model.User;
 import com.example.security01.repository.UserRepository;
@@ -14,6 +15,8 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -44,8 +47,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
             log.info("Facebook 로그인 요청");
             oAuth2UserInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+            log.info("Naver 로그인 요청");
+            oAuth2UserInfo = new NaverUserInfo((Map) oAuth2User.getAttributes().get("response"));
         } else {
-            log.info("Google 과 Facebook 로그인만 지원합니다.");
+            log.info("Google, Facebook, Naver 로그인만 지원합니다.");
         }
 
         /*

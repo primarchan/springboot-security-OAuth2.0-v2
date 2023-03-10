@@ -11,5 +11,9 @@
 
 ## OAuth2.0 로그인 가이드
 - Google
+  - [공식 문서 링크]()
 - Facebook
   - [공식 문서 링크](https://developers.facebook.com/docs/facebook-login/web)
+- Naver
+  - Naver 의 경우 `OAuth2.0` 에서 `Provider` 로 지원하지 않으므로 별도로 설정
+  - [공식 문서 링크](https://developers.naver.com/docs/login/devguide/devguide.md)
