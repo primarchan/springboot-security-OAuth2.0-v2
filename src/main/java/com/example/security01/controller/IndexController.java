@@ -1,12 +1,17 @@
 package com.example.security01.controller;
 
+import com.example.security01.auth.PrincipalDetails;
 import com.example.security01.dto.UserDto;
 import com.example.security01.service.IndexService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +25,28 @@ public class IndexController {
     private final IndexService indexService;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @GetMapping("/test/login")
+    @ResponseBody
+    public String testLogin(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) {  // DI (의존성 주입)
+        log.debug("/test/login ======================");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        log.info("authentication : {}", principalDetails.getUser());
+
+        log.info("userDetails : {}", userDetails.getUser());
+        return "세션 정보 확인하기";
+    }
+
+    @GetMapping("/test/oauth/login")
+    @ResponseBody
+    public String testOauthLogin(Authentication authentication, @AuthenticationPrincipal OAuth2User oauth) {  // DI (의존성 주입)
+        log.debug("/test/oauth/login ======================");
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        log.info("authentication : {}", oAuth2User.getAttributes());
+        log.info("oauth2User : {}", oauth.getAttributes());
+
+        return "OAuth2.0 로그인 세션 정보 확인하기";
+    }
 
     // localhost:8080/
     // localhost:8080

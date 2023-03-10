@@ -1,28 +1,10 @@
-# Spring Security Basic V1
+# Spring Security Auth2.0 V2
 
-## MySQL DB 및 사용자 생성
-````sql
-create user 'cos'@'%' identified by 'cos1234';
-GRANT ALL PRIVILEGES ON *.* TO 'cos'@'%';
-create database security;
-use security;
-````
-
-## SecurityConfig.java 권한 설정 방법
-```java
-// protected void configure(HttpSecurity http) Method 내부에 권한 설정법
-.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_USER')")
-.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-```
-
-## Controller 의 Method 에 직접 권한 설정 하는 방법
-```java
-// 특정 주소 접근시 권한 및 인증을 위한 Annotation 활성화 SecurityConfig.java 에 설정
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-
-// Controller 에 Annotation 거는 법
-@PostAuthorize("hasRole('ROLE_MANAGER')")
-@PreAuthorize("hasRole('ROLE_MANAGER')")
-@Secured("ROLE_MANAGER")
-```
+## Spring Security basic V1 참고
+- https://github.com/primarchan/springboot-security-basic-v1
+- Spring Security
+  - `Session` 내부에 `Security Session` 존재
+  - `Security Session` 내부에는 `Authentication` 타입의 객체만 가능 (`Controller` 에서 해당 객체를 `DI`)
+  - `Authentication` 객체 내부에는 `UserDetails`, `OAuth2User` 타입 가능
+  - 일반적인 로그인 시 `UserDetails` 타입, OAuth 로그인(Google, Facebook 등) 시 `OAuth2User` 타입
+  - 위와 같이 로그인 방법에 따라 불필요한 분기가 발생 -> `UserDetails`, `OAuth2User` 를 implement 한 `PrincipalDetails` 를 사용
